@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MasterCard Services</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+</head>
+<body>
+	<div class="container-fluid">
+		<header>
+			<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+		      <a class="navbar-brand" href="#">MasterCard</a>
+		      <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbars" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+		        <span class="navbar-toggler-icon"></span>
+		      </button>
+			</nav>
+		</header><br><br>
+		<!-- HEADER END HERE -->
+		<div class="row" style="margin-top:20px;">
+	<div class="col-md-2"></div>
+	<div class="col-md-8 align-self-center mx-auto">
+		<h2 class="text-center text-dark thin-text">Welcome</h2>
+		<p class="text-center text-muted thin-text">One step solution to all your MasterCard related services.</p><br>
+		
+		<div class="row" >
+		<div class="col-md-6" id="login_form"> 
+		<h3 class="text-center text-dark thin-text">Log In</h3><br>
+			<form method="post" action="/login">
+				<div class="form-group">
+					<input type="email" name="user_email" class="form-control" placeholder="Email" required aria-describedby="emailHelp">
+					 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+				</div>
+				<div class="form-group">
+					<input type="password" name="user_password" class="form-control" placeholder="Password" required>
+				</div>
+				<h6 class="text-right"><a href="">Forgot Password?</a></h6>
+				<button class="btn btn-primary">Login</button>
+			</form>
+		</div>
+			<div class="col-md-6" id="signup_form" >
+				<h3 class="text-center text-dark thin-text">Sign Up</h3><br>
+			<form method="post" action="/signup">
+				<div class="form-group">
+					<input type="name" name="name" class="form-control" placeholder="First Name" required >
+				</div>
+				<div class="form-group">
+					<input type="email" name="email" class="form-control" placeholder="Email"
+				 required >
+				</div>
+				<div class="form-group">
+					<input type="password" name="password" class="form-control" placeholder="Password" required >
+				</div>
+				<div class="form-group">
+					<input type="phone" name="contact" class="form-control" placeholder="Phone" required >
+				</div>
+				<button class="btn btn-primary">Sign Up</button>
+			</form>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-2"></div>
+</div><br><br>
+<!-- <footer style="position: absolute;bottom: 0px;">
+	<div class="row" style="height: 50px; background-color: #1e1d3f;position:fixed;">
+		<div class="col-sm-10 col-xs-6"></div>
+		<div class="col-sm-2 col-xs-6"><p style="color: white">All rights reserved.</p></div>
+	</div>
+</footer> -->
+	</div>
+</body>
+</html>

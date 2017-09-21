@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MasterCard Services</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <style type="text/css">
+    *{
+  margin: 0px;
+  padding: 0px;
+    }
+.sidebar {
+  position: fixed;
+  top: 51px;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  padding: 20px;
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+  border-right: 1px solid #eee;
+  float: left;
+}
+body {
+  padding-top: 3.5rem;
+}
+.col-12{
+  margin: 0px;
+  padding: 0px;
+}
+#profile_pic{
+  height:160px;
+  width:100%;
+  padding: 0px;
+  margin: 0px;
+  box-shadow: 0px 0px 1px black;
+}
+</style>
+<script>
+  $(document).ready(function() {
+    $("a.nav-link").click(function() {
+      var a = $(this).attr('id');
+     $.ajax({url: a , success: function(result){
+      // alert(result);
+        $("main").html(result);
+    }});   
+    });
+});
+</script>
+</head>
+<body>
+	<body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="#">MasterCard</a>
+      <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbars" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- <div class="collapse navbar-collapse" id="navbars">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Settings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Help</a>
+          </li>
+        </ul>
+       </div> -->
+    </nav>
+
+    <div id="wrapper" class="container-fluid">
+    	<nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar sidebar-nav">
+    		<div id="profile_pic" class="row"></div><br>
+          <ul class="nav nav-pills flex-column">
+            <!-- <li class="nav-item">
+              <a class="nav-link active" href="#" onclick="scrollWrapper(1);">Overview<span class="sr-only">(current)</span></a>
+            </li> -->
+            <li class="nav-item">
+              <a class="nav-link active" href="#" id="transacDetails.html">Transaction Details</a>
+            </li>
+           <li class="nav-item">
+              <a class="nav-link" id="paytab.html" href="#">Pay</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="analytics.html" href="#">Analytics</a>
+            </li>
+        </ul>
+        <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a class="nav-link" id="photo.html" href="#" >Photo</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="setting.html" href="#" >Settings</a>
+            </li>
+          </ul>
+		</nav>
+
+        <main class="col-sm-9 ml-sm-auto col-md-10 pt-3" role="main">
+
+        </main>
+    </div>
+</body>
+</html>

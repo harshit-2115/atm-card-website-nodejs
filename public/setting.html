@@ -13,7 +13,8 @@
 									<input type="password" name="password" class="form-control" placeholder="Password" required >
 								</div>
 								<div class="form-group">
-									<input type="phone" name="contact" class="form-control" placeholder="Phone" required >
+									<input type="phone" name="contact" pattern="[1-9]{1}[0-9]{9}" class="form-control" placeholder="Phone" required >
+									<small>10 Digits Exact!</small>
 								</div>
 								<button class="btn btn-primary">Save</button>
 							</form>	

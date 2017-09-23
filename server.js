@@ -23,7 +23,32 @@ app.get('/', function(req, res){
 	res.clearCookie('Email');
 	res.clearCookie('account');
 	res.clearCookie('name');
+	res.clearCookie('balance');
 	getFileContent(res,'index.html','text/html');
+});
+app.get('/transactions', function(req, res){
+	// getFileContent(res,'hello.html','text/html');
+	if (!req.body) return res.sendStatus(400)
+  	var con = mysql.createConnection({
+  	host: "localhost",
+  	user: "root",
+  	password: "",
+  	database:'mydb'});
+  	var userA = req.cookies.account;  
+  	console.log("in here");
+  	con.connect(function(err) {
+		  if (err) throw err;
+		  console.log("Connected!");
+		  var sql = "Select * FROM transactions WHERE account='" + userA + "'" ;
+		  res.write(" <!DOCTYPE html> <html> <head> <title>MasterCard Services</title> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, shrink-to-fit=no\"> <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css\" integrity=\"sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M\" crossorigin=\"anonymous\"> <link rel=\"stylesheet\" href=\"style.css\"> <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js\"></script> <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js\" integrity=\"sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1\" crossorigin=\"anonymous\"></script> <script src=\"main.js\" type=\"text/javascript\"></script> </head> <body> <body> <div id=\"wrapper\" class=\"container-fluid\"> <main class=\"col-sm-9 col-md-10\" role=\"main\"> <div class=\"table-responsive row\"> <h2>Transaction Details</h2> <table class=\"table table-striped\"> <thead><tr> <th>#</th> <th>Date</th> <th>From/To</th> <th>Debit</th> <th>Credit</th> </tr></thead> <tbody>");
+		 	con.query(sql, function (err, result) {
+		  	if (err) throw err;
+		    for(var i = 0; i < result.length; i++) {
+ 					res.write("<tr><td>"+(i+1)+"</td> <td>"+result[i].date+"</td> <td>"+result[i].party+"</td> <td>"+result[i].debit+"</td> <td>"+result[i].credit+"</td></tr>")
+				}
+				res.write("</tbody> </table> </div> <button type=\"btn btn-primary\"><a href=\"dashboard\">Back</a></button> </main> </div> </body> </html>");
+		  });
+	});
 });
 app.get('/dashboard', function(req, res){
 	
@@ -32,11 +57,15 @@ app.get('/dashboard', function(req, res){
 else
 	res.redirect('/');
 });
+app.get('/error', function(req, res){
+	res.write("<!DOCTYPE html> <html> <head> <title>Error Page</title> </head> <body> <h2>Error Page</h2> <form action=\"/dashboard\"> <p>Some Error Occured or you entered wrong details.</p> <button>Back</button> </form> </body> </html>");
+});
 app.get('/logout', function(req, res){
 	if(req.cookies.Email){
 	res.clearCookie('Email');
 	res.clearCookie('account');
 	res.clearCookie('name');
+	res.clearCookie('balance');
 	res.redirect('/');
 }
 else
@@ -48,7 +77,7 @@ app.post('/upload', (req, res) => {
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
   let sampleFile = req.files.fileToUpload;
  // Use the mv() method to place the file somewhere on your server
-  var name = req.cookies.name;
+  var name = req.cookies.Email;
   sampleFile.mv("./photos/"+name+".jpg", function(err) {
     if (err)
       return res.status(500).send(err);
@@ -77,6 +106,7 @@ app.post('/login', urlencodedParser, function (req, res) {
 		    	res.cookie('Email', userE, { expires: new Date(Date.now() + 86400000), httpOnly: false });
 			  	res.cookie('account', result[0].account, { expires: new Date(Date.now() + 86400000), httpOnly: false });
 			  	res.cookie('name', result[0].name, { expires: new Date(Date.now() + 86400000), httpOnly: false });
+			  	res.cookie('balance', result[0].balance, { expires: new Date(Date.now() + 86400000), httpOnly: false });
 		    	res.redirect('/dashboard');
 			}
 		    else{
@@ -100,35 +130,57 @@ app.post('/payamt', urlencodedParser, function (req, res) {
 		  	var dt = new Date();
 		  	var sendname = req.cookies.name;
 		  	var sendaccount = req.cookies.account;
-		  	var sql1 = "Select name FROM customers WHERE account='" + userA + "'";
+		  	var balance1 = req.cookies.balance;
+		  	var sql1 = "Select name,balance FROM customers WHERE account='" + userA + "'";
 		  	console.log("1 milestone");
 			con.query(sql1, function (err, result) {
 		  	// console.log(result[0].password);
 		  	// console.log(userP);
 		    if (err) throw err;
-		    			if (result[0].name) {
-		    				console.log(result[0].name);
+			if (result.length == 0) {
+		    		res.redirect("/error");
+			    	res.end();
+			    }
+			    else{
+						if (result[0].name) {
+		    				console.log(result[0]);
 		    				var name = result[0].name;
-		    				console.log("2 milestone");
-		    				var sql = "INSERT into transactions(account,credit,debit,recname,sendname,date) VALUES('"+userA+"','"+userP+"',0,'"+name+"','"+sendname+"','"+  dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate() +"')";
-		    				var sql2 = "INSERT into transactions(account,debit,credit,recname,sendname,date) VALUES('"+sendaccount+"','"+userP+"',0,'"+name+"','"+sendname+"','"+  dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate() +"')";
-						    con.query(sql, function (err, result1) {
-						    	console.log(result1);
-						  	// console.log(result[0].password);
-						  	// console.log(userP);
-						    if (err) throw err;
-						    con.query(sql2, function (err, result2) {
-						    	console.log(result2);
-						  	// console.log(result[0].password);
-						  	// console.log(userP);
-						    if (err) throw err;
-						    res.send("<!DOCTYPE html><html><head><title></title></head><body style=\"position: relative;\"><form action=\"/dashboard\"><h1>Successfully Done.</h1><button class=\"btn btn-primary\">Back</button></form></body></html>");
-						  });
-						  });
+		    				var balance = result[0].balance;
+		    				if ((balance-userP) >= 0) 
+		    				{
+			    				var sql = "INSERT into transactions(account,credit,debit,party,date) VALUES('"+userA+"','"+userP+"',0,'"+sendname+"','"+  dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate() +"')";
+			    				var sql2 = "INSERT into transactions(account,debit,credit,party,date) VALUES('"+sendaccount+"','"+userP+"',0,'"+name+"','"+  dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate() +"')";
+			    				var final = balance*1+(userP*1);
+			    				var sql3 = "UPDATE customers SET balance='"+final+"' WHERE account='"+userA+"'";
+			    				var sql4 = "UPDATE customers SET balance='"+(balance1*1-userP*1)+"' WHERE account='"+sendaccount+"'";
+
+			    				con.query(sql, function (err, result1) {
+							    	console.log(result1);
+								if (err) throw err;
+							    con.query(sql2, function (err, result2) {
+							    	console.log(result2);
+							  	if (err) throw err;
+								con.query(sql3, function (err, result3) {
+							    	console.log(result3);
+							  	if (err) throw err;
+							    con.query(sql4, function (err, result4) {
+							    	console.log(result4);
+								if (err) throw err;
+								res.cookie('balance', (balance1*1-userP*1), { expires: new Date(Date.now() + 86400000), httpOnly: false });
+							    res.send("<!DOCTYPE html><html><head><title></title></head><body style=\"position: relative;\"><form action=\"/dashboard\"><h1>Successfully Done.</h1><button class=\"btn btn-primary\">Back</button></form></body></html>");
+							  });
+							  });
+				
+							  });
+							  });
+							 }else{
+							 	res.redirect("/error");
+							 }   
 						}
 						else{
 							res.send("<!DOCTYPE html><html><head><title></title></head><body style=\"position: relative;\"><form action=\"/dashboard\"><h1>Error</h1><button class=\"btn btn-primary\">Back</button></form></body></html>");
 						}
+					}
 		});
 	});
 });
@@ -177,6 +229,7 @@ app.post('/signup', urlencodedParser, function (req, res) {
 		  	res.cookie('Email', userE, { expires: new Date(Date.now() + 86400000), httpOnly: false });
 		  	res.cookie('account', AccNo, { expires: new Date(Date.now() + 86400000), httpOnly: false });
 		  	res.cookie('name', userN, { expires: new Date(Date.now() + 86400000), httpOnly: false });
+		  	res.cookie('balance', minBal, { expires: new Date(Date.now() + 86400000), httpOnly: false });
 		    res.redirect('/dashboard');
 		  });
 	});

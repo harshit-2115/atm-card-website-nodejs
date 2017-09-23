@@ -29,12 +29,12 @@
 			<form method="post" action="/login">
 				<div class="form-group">
 					<input type="email" name="user_email" class="form-control" placeholder="Email" required aria-describedby="emailHelp">
-					 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+					
 				</div>
 				<div class="form-group">
 					<input type="password" name="user_password" class="form-control" placeholder="Password" required>
 				</div>
-				<h6 class="text-right"><a href="">Forgot Password?</a></h6>
+				<!-- <h6 class="text-right"><a href="">Forgot Password?</a></h6> -->
 				<button class="btn btn-primary">Login</button>
 			</form>
 		</div>
@@ -42,17 +42,23 @@
 				<h3 class="text-center text-dark thin-text">Sign Up</h3><br>
 			<form method="post" action="/signup">
 				<div class="form-group">
-					<input type="name" name="name" class="form-control" placeholder="First Name" required >
+					<input type="name" name="name" class="form-control" placeholder="Name" required >
 				</div>
 				<div class="form-group">
 					<input type="email" name="email" class="form-control" placeholder="Email"
 				 required >
+				  <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
 				</div>
 				<div class="form-group">
 					<input type="password" name="password" class="form-control" placeholder="Password" required >
 				</div>
 				<div class="form-group">
-					<input type="phone" name="contact" class="form-control" placeholder="Phone" required >
+					<input type="text" name="contact" class="form-control" placeholder="Phone" pattern="[1-9]{1}[0-9]{9}" required >
+					<small class="form-text text-muted">10 digits exact!</small>
+				</div>
+				<div class="form-group">
+					<input type="text" name="account" class="form-control" placeholder="Account Number" pattern="[1-9]{1}[0-9]{9}" required >
+					<small class="form-text text-muted">10 digits exact! We will provide you with 10,000 as default balance.</small>
 				</div>
 				<button class="btn btn-primary">Sign Up</button>
 			</form>
@@ -61,12 +67,6 @@
 	</div>
 	<div class="col-md-2"></div>
 </div><br><br>
-<!-- <footer style="position: absolute;bottom: 0px;">
-	<div class="row" style="height: 50px; background-color: #1e1d3f;position:fixed;">
-		<div class="col-sm-10 col-xs-6"></div>
-		<div class="col-sm-2 col-xs-6"><p style="color: white">All rights reserved.</p></div>
-	</div>
-</footer> -->
-	</div>
+</div>
 </body>
 </html>

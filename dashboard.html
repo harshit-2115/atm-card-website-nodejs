@@ -7,10 +7,10 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <style type="text/css">
-    *{
-  margin: 0px;
-  padding: 0px;
-    }
+  *{
+      margin: 0px;
+      padding: 0px;
+  }
 .sidebar {
   position: fixed;
   top: 51px;
@@ -41,11 +41,15 @@ body {
 <script>
   $(document).ready(function() {
     $("a.nav-link").click(function() {
+      $("a").removeClass('active');
+      $(this).addClass('active');
       var a = $(this).attr('id');
+      if (a == 'logout') {alert("Hello");}
+        else{
      $.ajax({url: a , success: function(result){
       // alert(result);
         $("main").html(result);
-    }});   
+    }});   }
     });
 });
 </script>
@@ -78,19 +82,18 @@ body {
 
     <div id="wrapper" class="container-fluid">
     	<nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar sidebar-nav">
-    		<div id="profile_pic" class="row"></div><br>
+    		<div id="profile_pic" class="row">
+        <img src="Harshit.jpg" style="max-width: 100%; height: auto;">  
+        </div><br>
           <ul class="nav nav-pills flex-column">
             <!-- <li class="nav-item">
               <a class="nav-link active" href="#" onclick="scrollWrapper(1);">Overview<span class="sr-only">(current)</span></a>
             </li> -->
             <li class="nav-item">
-              <a class="nav-link active" href="#" id="transacDetails.html">Transaction Details</a>
+              <a class="nav-link" href="#" id="transacDetails.html">Transaction Details</a>
             </li>
            <li class="nav-item">
               <a class="nav-link" id="paytab.html" href="#">Pay</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="analytics.html" href="#">Analytics</a>
             </li>
         </ul>
         <ul class="nav nav-pills flex-column">
@@ -99,6 +102,9 @@ body {
             </li>
             <li class="nav-item">
               <a class="nav-link" id="setting.html" href="#" >Settings</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="logout" >Logout</a>
             </li>
           </ul>
 		</nav>
